@@ -1,10 +1,13 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+
 import {
   MatTreeFlatDataSource,
   MatTreeFlattener,
 } from '@angular/material/tree';
+import { ExampleFlatNode } from './models/ExampleFlatNode';
+import { FoodNode } from './models/FoodNode';
 
 /**
  * @title Stepper vertical
@@ -24,8 +27,32 @@ export class StepperVerticalExample {
   });
   isLinear = false;
 
+  TREE_DATA: FoodNode[] = [
+    {
+      name: 'Fruit',
+      children: [
+        { name: 'Apple' },
+        { name: 'Banana' },
+        { name: 'Fruit loops' },
+      ],
+    },
+    {
+      name: 'Vegetables',
+      children: [
+        {
+          name: 'Green',
+          children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
+        },
+        {
+          name: 'Orange',
+          children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
+        },
+      ],
+    },
+  ];
+
   constructor(private _formBuilder: FormBuilder) {
-    this.dataSource.data = TREE_DATA;
+    this.dataSource.data = this.TREE_DATA;
   }
 
   private _transformer = (node: FoodNode, level: number) => {
