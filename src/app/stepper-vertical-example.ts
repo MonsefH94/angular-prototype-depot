@@ -31,21 +31,14 @@ export class TodoItemFlatNode {
  * The Json object for to-do list data.
  */
 const TREE_DATA = {
-  Groceries: {
-    'Almond Meal flour': null,
-    'Organic eggs': null,
-    'Protein Powder': null,
-    Fruits: {
-      Apple: null,
-      Berries: ['Blueberry', 'Raspberry'],
-      Orange: null,
-    },
+  Electrique: {
+    '4PP': null,
+    'C-V': null,
+    'G-V': null,
+    VDB: null,
   },
-  Reminders: [
-    'Cook dinner',
-    'Read the Material Design spec',
-    'Upgrade Application to Angular',
-  ],
+  Métrologie: ['Bevel', 'BSO', 'Gloss'],
+  PhysicoChimique: ['SECCO', 'BMD Chim'],
 };
 
 /**
@@ -130,6 +123,9 @@ export class StepperVerticalExample {
 
   isLinear = false;
 
+  lists: string[];
+  isCanAdd: boolean;
+
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
   flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
 
@@ -176,7 +172,9 @@ export class StepperVerticalExample {
       this.dataSource.data = data;
     });
   }
-
+  ngOnInit() {
+    this.isCanAdd = true;
+  }
   getLevel = (node: TodoItemFlatNode) => node.level;
 
   isExpandable = (node: TodoItemFlatNode) => node.expandable;
@@ -243,6 +241,8 @@ export class StepperVerticalExample {
     const nestedNode = this.flatNodeMap.get(node);
     this.database.updateItem(nestedNode!, itemValue);
   }
+
+  addAnalyse() {}
 }
 
 /**  Copyright 2022 Google LLC. All Rights Reserved.

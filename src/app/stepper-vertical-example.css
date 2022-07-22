@@ -5,3 +5,26 @@
 .mat-form-field {
   margin-top: 16px;
 }
+
+.mattree {
+  border: 1px solid;
+  width: 105%;
+  background: #e0e0e033;
+  margin-bottom: 25px;
+}
+
+.analyse {
+  display: flex;
+}
+
+.btn {
+  width: 8%;
+  margin-left: 50px;
+  margin-top: 34px;
+  margin-bottom: 5px;
+}
+
+.bt {
+  margin-bottom: 10px;
+  padding-inline: 26px;
+}
