@@ -1,0 +1,74 @@
+<button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+  {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+</button>
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Scanner carrier ID ou lot ID</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Scanner carrier ID ou Lot ID</mat-label>
+        <input matInput placeholder="" formControlName="firstCtrl" required>
+      </mat-form-field>
+      <mat-form-field style="margin-left:50px" appearance="fill">
+        <mat-label>Code projet</mat-label>
+        <input matInput placeholder="" [disabled]=true formControlName="sdCtrl">
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Choisir les analyses</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+               required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Définition de clivage</ng-template>
+      <mat-form-field appearance="fill">
+        <mat-label>Nombres d'échantillons</mat-label>
+        <select matNativeControl required>
+          <option value="volvo">1</option>
+          <option value="saab">2</option>
+          <option value="mercedes">3</option>
+          <option value="audi">4</option>
+        </select>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Imprimer</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Informations complémentaires</ng-template>
+    <mat-form-field appearance="fill">
+      <mat-label>date de prélèvement</mat-label>
+      <input matInput [matDatepicker]="picker">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button classe=accent>Déposer</button>
+      <button mat-button classe=accent>Annuler</button>
+    </div>
+  </mat-step>
+</mat-stepper>
+
+
+<!-- Copyright 2022 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at https://angular.io/license -->
