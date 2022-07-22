@@ -1,15 +1,22 @@
-
+<button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+  {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+</button>
 <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Scanner carrier ID ou lot ID</ng-template>
       <mat-form-field appearance="fill">
         <mat-label>Scanner carrier ID ou Lot ID</mat-label>
-        <input matInput placeholder="" formControlName="firstCtrl" required>
+        <input matInput placeholder="" formControlName="firstCtrl" required />
       </mat-form-field>
-      <mat-form-field style="margin-left:50px" appearance="fill">
+      <mat-form-field style="margin-left: 50px" appearance="fill">
         <mat-label>Code projet</mat-label>
-        <input matInput placeholder="" [disabled]=true formControlName="sdCtrl">
+        <input
+          matInput
+          placeholder=""
+          [disabled]="true"
+          formControlName="sdCtrl"
+        />
       </mat-form-field>
       <div>
         <button mat-button matStepperNext>Next</button>
@@ -19,23 +26,55 @@
   <mat-step [stepControl]="secondFormGroup">
     <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Choisir les analyses</ng-template>
-        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-          <!-- This is the tree node template for leaf nodes -->
-          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-            <!-- use a disabled button to provide padding for tree leaf -->
-            <button mat-icon-button disabled></button>
-            {{node.name}}
-          </mat-tree-node>
-          <!-- This is the tree node template for expandable nodes -->
-          <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-            <button mat-icon-button matTreeNodeToggle
-                    [attr.aria-label]="'Toggle ' + node.name">
-              <mat-icon class="mat-icon-rtl-mirror">
-                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-              </mat-icon>
-            </button>
-            {{node.name}}
-          </mat-tree-node>
+      <p>Les Analyses compatibles</p>
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <mat-tree-node
+          *matTreeNodeDef="let node"
+          matTreeNodeToggle
+          matTreeNodePadding
+        >
+        <button mat-icon-button disabled></button>
+          <mat-checkbox
+            class="checklist-leaf-node"
+            [checked]="checklistSelection.isSelected(node)"
+            (change)="checklistSelection.toggle(node);"
+            >{{node.item}}</mat-checkbox
+          >
+        </mat-tree-node>
+
+        <mat-tree-node
+          *matTreeNodeDef="let node; when: hasNoContent"
+          matTreeNodePadding
+        >
+          <button mat-icon-button disabled></button>
+          <mat-form-field>
+            <input matInput #itemValue placeholder="New item..." />
+          </mat-form-field>
+          <button mat-button (click)="saveNode(node, itemValue.value)">
+            Save
+          </button>
+        </mat-tree-node>
+
+        <mat-tree-node
+          *matTreeNodeDef="let node; when: hasChild"
+          matTreeNodePadding
+        >
+          <button
+            mat-icon-button
+            matTreeNodeToggle
+            [attr.aria-label]="'toggle ' + node.filename"
+          >
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+          <mat-checkbox
+            [checked]="descendantsAllSelected(node)"
+            [indeterminate]="descendantsPartiallySelected(node)"
+            (change)="todoItemSelectionToggle(node)"
+            >{{node.item}}</mat-checkbox
+          >
+        </mat-tree-node>
       </mat-tree>
       <div>
         <button mat-button matStepperPrevious>Back</button>
@@ -66,27 +105,26 @@
     <ng-template matStepLabel>Informations complémentaires</ng-template>
     <mat-form-field appearance="fill">
       <mat-label>date de prélèvement</mat-label>
-      <input matInput [matDatepicker]="picker">
+      <input matInput [matDatepicker]="picker" />
       <mat-hint>MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <div>
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button classe=accent></button>
-      <button mat-button classe=accent>Annuler</button>
+      <button mat-button classe="accent"></button>
+      <button mat-button classe="accent">Annuler</button>
     </div>
   </mat-step>
   <mat-step>
-  <ng-template matStepLabel>Déposer</ng-template>
-  <p>You are now done.</p>
-  <div>
-    <button mat-button matStepperPrevious>Back</button>
-    <button mat-button (click)="stepper.reset()">Déposer</button>
-  </div>
-</mat-step>
+    <ng-template matStepLabel>Déposer</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button>Déposer</button>
+    </div>
+  </mat-step>
 </mat-stepper>
-
 
 <!-- Copyright 2022 Google LLC. All Rights Reserved.
     Use of this source code is governed by an MIT-style license that
